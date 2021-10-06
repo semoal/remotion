@@ -85,7 +85,7 @@ export const getCompositions = async (
 
 	// Close web server and don't wait for it to finish,
 	// it is slow.
-	close().catch((err) => {
+	await close().catch((err) => {
 		console.error('Was not able to close web server', err);
 	});
 	cleanup();

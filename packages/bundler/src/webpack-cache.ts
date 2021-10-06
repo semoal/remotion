@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import del from 'del';
 import {random} from 'remotion';
 
 type Environment = 'development' | 'production';
@@ -64,12 +65,9 @@ export const clearCache = (
 	environment: Environment,
 	inputProps: object | null
 ) => {
-	return (fs.promises.rm ?? fs.promises.rmdir)(
-		remotionCacheLocation(environment, inputProps),
-		{
-			recursive: true,
-		}
-	);
+	return del(remotionCacheLocation(environment, inputProps), {
+		force: true,
+	});
 };
 
 export const getWebpackCacheName = (

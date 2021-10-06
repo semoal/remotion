@@ -9,6 +9,7 @@ import {
 import chalk from 'chalk';
 import fs from 'fs';
 import os from 'os';
+import del from 'del';
 import path from 'path';
 import {Internals} from 'remotion';
 import {getCliOptions} from './get-cli-options';
@@ -232,14 +233,7 @@ export const render = async () => {
 
 		Log.verbose('Cleaning up...');
 		try {
-			await Promise.all([
-				(fs.promises.rm ?? fs.promises.rmdir)(outputDir, {
-					recursive: true,
-				}),
-				(fs.promises.rm ?? fs.promises.rmdir)(bundled, {
-					recursive: true,
-				}),
-			]);
+			await del([outputDir, bundled], {force: true});
 		} catch (err) {
 			Log.warn('Could not clean up directory.');
 			Log.warn(err);

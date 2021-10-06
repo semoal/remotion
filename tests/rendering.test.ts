@@ -1,5 +1,6 @@
 import execa from "execa";
 import fs from "fs";
+import del from "del";
 import path from "path";
 
 const outputPath = path.join(process.cwd(), "packages/example/out.mp4");
@@ -161,9 +162,7 @@ test("Should render a still image if single frame specified", async () => {
   const data = info.stderr;
   expect(data).toContain("Video: png");
   expect(data).toContain("png_pipe");
-  await (fs.promises.rm ?? fs.promises.rmdir)(outDir, {
-    recursive: true,
-  });
+  await del(outDir, { force: true });
 });
 
 test("Should be able to render a WAV audio file", async () => {

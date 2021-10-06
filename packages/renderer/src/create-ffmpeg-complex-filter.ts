@@ -1,5 +1,6 @@
 import fs from 'fs';
 import os from 'os';
+import del from 'del';
 import path from 'path';
 import {FfmpegFilterCalculation} from './calculate-ffmpeg-filters';
 
@@ -43,9 +44,7 @@ export const createFfmpegComplexFilter = async (
 	return {
 		complexFilterFlag: ['-filter_complex_script', filterFile],
 		cleanup: () => {
-			(fs.promises.rm ?? fs.promises.rmdir)(tempPath, {
-				recursive: true,
-			}).catch((err) => {
+			del(tempPath, {force: true}).catch((err) => {
 				console.error('Could not delete a temp file');
 				console.error(err);
 				console.error('Do you have the minimum Node.JS installed?');
